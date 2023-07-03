@@ -38,7 +38,6 @@ UserSchema.statics.finduserNameEmailAndPassword = async ({
   } else {
     const user = await userModel.findOne({ username });
     if (!user) throw new Error("User does not exists");
-
     // Compare password
     const doesPasswordMatch = await bcrypt.compare(password, user.password);
 
