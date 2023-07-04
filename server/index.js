@@ -16,7 +16,7 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use("/OJ",router);
-
+app.use(express.urlencoded({ extended: true }));
 
 app.listen(process.env.PORT, () => {
     db()
