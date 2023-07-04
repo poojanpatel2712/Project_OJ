@@ -44,7 +44,7 @@ function Problems() {
             <h1 className="text-3xl font-bold mb-4">Problems</h1>
             <div className="grid grid-cols-1 gap-4 hover:cursor-pointer">
               {problems?.map((problem) => (
-                <Link to={`/problem/${problem.id}`}>
+                <Link to={`/problem/${problem._id}`}>
                   <div
                     className="bg-gray-100 p-4 rounded hover:bg-gray-200"
                     key={problem.id}
@@ -55,8 +55,6 @@ function Problems() {
                         Difficulty: {problem.difficulty}
                       </p>
                     </div>
-                    <div className="text-gray-800">{problem.description}</div>
-                    {/* Additional details or elements for the problem */}
                   </div>
                 </Link>
               ))}

@@ -1,7 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-function CompilerArea() {
-  
+import { useDispatch } from "react-redux";
+import { getProblemByID } from "../Reducers/problems/problemActions";
+import { useParams } from "react-router-dom";
+function CompilerArea1() {
+  const [problemByID, setProblemByID] = useState({ title: "" });
+  const dispatch = useDispatch();
+  const { _id } = useParams();
+
+  useEffect(() => {
+      dispatch(getProblemByID(_id)).then((data) => {
+      console.log(data.payload.data.prob);
+      setProblemByID(data.payload.data.prob);
+    });
+  }, []);
   return (
     <>
       <Navbar />
@@ -9,10 +21,20 @@ function CompilerArea() {
         <main className="p-4 h-full">
           <div className="flex flex-row container mx-auto h-full">
             <div className="w-1/2 overflow-y-auto  bg-gray-100 p-4 rounded mb-4">
-              <h1 className="text-3xl font-bold mb-4">Problem Title</h1>
+              <h1 className="text-3xl font-bold mb-4">{problemByID.title}</h1>
               <h2 className="text-xl font-bold mb-2">Problem Description</h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt distinctio repellat eveniet. Alias accusamus quo in est hic laborum! Vitae maxime molestias id voluptates ducimus hic sit dolorum inventore eos. Dolores voluptates quod exercitationem porro.
+                {problemByID.statement}
+              </p>
+              <h2 className="text-xl font-bold mb-2">Examples</h2>
+              <p>
+                {problemByID.examples?.map((example) => {
+                    return <div>example</div>
+                })}
+              </p>
+              <h2 className="text-xl font-bold mb-2">Constraints</h2>
+              <p>
+                {problemByID.constraints}
               </p>
               {/* Additional details for the problem */}
             </div>
@@ -46,4 +68,4 @@ function CompilerArea() {
   );
 }
 
-export default CompilerArea;
+export default CompilerArea1;
