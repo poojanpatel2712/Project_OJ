@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Navbar from "./Navbar";
 function CompilerArea() {
   
-
   return (
     <>
       <Navbar />
@@ -39,7 +38,7 @@ function CompilerArea() {
             </div>
           </div>
         </main>
-        <footer className="bg-gray-200 p-4">
+        <footer className="bg-gray-800 p-4">
           {/* Footer content goes here */}
         </footer>
       </div>

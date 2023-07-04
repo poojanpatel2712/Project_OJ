@@ -22,7 +22,7 @@ function App() {
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
-        <Route path="/CompilerArea" element={<CompilerArea />} />
+        <Route path="/problem/:_id" element={<CompilerArea />} />
       </Routes>
     </Router>
   );
