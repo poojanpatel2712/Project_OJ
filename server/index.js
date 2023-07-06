@@ -9,10 +9,12 @@ require("dotenv").config();
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import db from "./database/index.js";
-import router from "./routes/index.js";
 import passport from "passport";
 import session from "express-session";
+
+import db from "./database/index.js";
+import router from "./routes/index.js";
+
 import passportConfig from "./Config/passportConfig.js";
 
 passportConfig(passport);
@@ -21,14 +23,12 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
-app.use("/OJ", router);
 app.use(express.urlencoded({ extended: true }));
-
 app.use(
   session({
     resave: false,
     saveUninitialized: true,
-    secret: "CPEscort",
+    secret: "OJ",
   })
 );
 
@@ -42,6 +42,8 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
   done(null, user);
 });
+
+app.use("/OJ", router);
 
 app.listen(process.env.PORT, () => {
   db()

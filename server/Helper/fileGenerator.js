@@ -14,10 +14,10 @@ if (!fs.existsSync(dirCodes)) {
 }
 
 const generateFile = async (format, content) => {
-  const jobID = uuid();
-  const fileName = `${jobID}.${format}`;
+  const jobId = uuid();
+  const fileName = `${jobId}.${format}`;
   const filePath = path.join(dirCodes, fileName);
-  await fs.writeFileSync(filePath, content);
+  fs.writeFileSync(filePath, content);
   return filePath;
 };
 
@@ -38,11 +38,11 @@ const executeCpp = async (filePath, input) => {
   const outPath = path.join(outputPath, `${jobId}.exe`);
 
   const inPath = path.join(inputPath, `${jobId}.txt`);
-  await fs.writeFileSync(inPath, input);
+  fs.writeFileSync(inPath, input);
 
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inPath}`,
+      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inPath} `,
       (error, stdout, stderr) => {
         if (error) {
           reject({ error, stderr });

@@ -3,7 +3,7 @@ import { testcaseModel } from "../models/testcaseModel.js";
 const GetTestcaseList = async (req, res) => {
   try {
     const { problemid } = req.params;
-    const testcaseList = await testcaseModel.find({ problemID: problemid });
+    const testcaseList = await testcaseModel.find({ problemId: problemid });
     return res.status(200).json({ testcaseList });
   } catch (error) {
     console.log(error);
