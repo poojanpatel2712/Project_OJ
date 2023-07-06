@@ -1,4 +1,7 @@
 import { solutionModel } from "../models/solutionModel.js";
+import { testcaseModel } from "../models/testcaseModel.js";
+import { generateFile,executeCpp } from "../Helper/fileGenerator.js";
+
 
 const GetSolution = async (req, res) => {
   try {
@@ -29,45 +32,46 @@ const submitProblem = async (req, res) => {
   try {
     const { language = "c++", code } = req.body;
     const { problemId } = req.params;
-    const userId = req.session.passport.user._doc._id;
-
-    const testcases = await TestcasesModel.find({
-      problem: problemId,
+    const author = req.session.passport.user._doc._id;
+    const testcases = await testcaseModel.find({
+        problemId: problemId,
     });
-
+    
     if (!code) {
-      return res.status(404).json({ success: false, error: "Empty code !!" });
+        return res.status(404).json({ success: false, error: "Empty code !!" });
     }
-
+    
+    // console.log(testcases);
     for (let i = 0; i < testcases.length; i++) {
-      const testcase = testcases[i];
-      const filePath = await generateFile(language, code);
-      const output = await executeCpp(filePath, testcase.input);
-      const pureStringOutout = output.replace(/(?:\r\n|\r|\n)/g, "");
-      const pureStringtestcaseOutput = testcase.output.replace(
-        /(?:\r\n|\r|\n)/g,
-        ""
-      );
-      const success =
-        pureStringOutout.toLowerCase() ==
-        pureStringtestcaseOutput.toLowerCase();
-
-      if (!success) {
-        const solution = await SolutionsModel.create({
-          problem: problemId,
-          verdict: "Fail",
-          message: `Wrong Answer on testcase ${index + 1}`,
-          submittedBy: userId,
-          submittedAt: new Date(),
-        });
-        return res.staus(200).json({ solution });
+        const testcase = testcases[i];
+        const filePath = await generateFile(language, code);
+        const output = await executeCpp(filePath, testcase.input);
+        const pureStringOutput = output.replace(/(?:\r\n|\r|\n)/g, "");
+        const pureStringtestcaseOutput = testcase.output.replace(
+          /(?:\r\n|\r|\n)/g,
+          ""
+          );
+          const success =
+          pureStringOutput.toLowerCase() ==
+          pureStringtestcaseOutput.toLowerCase();
+          
+          if (!success) {
+            const solution = await solutionModel.create({
+              problemId: problemId,
+              verdict: "Failed",
+              // message: `Wrong Answer on testcase ${index + 1}`,
+                submittedBy: author,
+              submittedAt: new Date(),
+            });
+            console.log(i+1);
+        return res.status(200).json({ solution });
       }
     }
-    const solution = await SolutionsModel.create({
+    const solution = await solutionModel.create({
       problem: problemId,
-      verdict: "Pass",
-      message: `Accepted`,
-      submittedBy: userId,
+      verdict: "Accepted",
+    //   message: `Accepted`,
+      submittedBy: author,
       submittedAt: new Date(),
     });
 

@@ -5,12 +5,12 @@ import { SIGN_IN, SIGN_OUT, SIGN_UP } from "./authTypes";
 
 export const signin = (userData) => async (dispatch) => {
   try {
-    const user = axios({
+    const user = await axios({
       url: "http://localhost:4000/OJ/auth/signin",
       method: "POST",
       data: userData,
     }); 
-    localStorage.setItem("EscortUser", JSON.stringify(user.data.token));
+    localStorage.setItem("jwt", JSON.stringify(user.data.token));
     window.location.href = "/";
     return dispatch({ type: SIGN_IN, payload: user });
   } catch (error) {
