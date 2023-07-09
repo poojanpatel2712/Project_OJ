@@ -7,7 +7,7 @@ const ProblemSchema = mongoose.Schema(
     author: { type: mongoose.Types.ObjectId, ref: "Profile" },
     difficulty: { type: String, enum: ["Easy", "Medium", "Hard"] },
     problem_tag: [{ type: String }],
-    examples: [{ input: String, output: String, explanation: String }],
+    examples: [{type: String}],
     constraints: [String],
   },
   {

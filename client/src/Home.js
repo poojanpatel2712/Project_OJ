@@ -1,15 +1,12 @@
-import React from 'react'
-import Navbar from './Pages/Navbar';
+import React from "react";
+import Navbar from "./Pages/Navbar";
 
 function Home() {
   return (
-    <div className='flex'>
-        <Navbar/>
-        <div>
-          
-        </div>
+    <div>
+      <Navbar />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

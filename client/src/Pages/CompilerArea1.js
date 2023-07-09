@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { getProblemByID } from "../Reducers/problems/problemActions";
 import { useParams } from "react-router-dom";
 import { submitSolution } from "../Reducers/solutions/solutionAction";
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 import classNames from "classnames";
 
 function CompilerArea1() {
@@ -21,17 +21,16 @@ function CompilerArea1() {
     });
   }, []);
 
-  
   const [solution, setSolution] = useState("");
-  let [isOpen, setIsOpen] = useState(false)
+  let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
     setSolution("");
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function openModal() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
 
   function changeHandler(e) {
@@ -48,27 +47,34 @@ function CompilerArea1() {
       })
     ).then((data) => {
       console.log(data);
-      if (!data.payload.data) {
-        if (data.payload.response.data.error.stderr) {
+      try {
+        if (!data.payload.data) {
+          if (data.payload.response.data.error.stderr) {
+            setSolution({
+              ver: "Failed",
+              mess: data.payload.response.data.error.stderr.split("error: ")[1],
+            });
+          } else {
+            setSolution({
+              ver: "Failed",
+              mess: data.payload.response.data.error,
+            });
+          }
+        } else if (data.payload.data.solution.verdict == "Accepted") {
           setSolution({
-            ver: "Failed",
-            mess: data.payload.response.data.error.stderr.split("error: ")[1],
+            ver: "Accepted",
+            mess: "You Have Passed All Test Cases",
           });
         } else {
           setSolution({
             ver: "Failed",
-            mess: data.payload.response.data.error,
+            mess: "You Have Not Passed All Test Cases.",
           });
         }
-      } else if(data.payload.data.solution.verdict == "Accepted"){
+      } catch (error) {
         setSolution({
-          ver: "Accepted",
-          mess: "You Have Passed All Test Cases",
-        });
-      } else{
-        setSolution({
-          ver: "Failed",
-          mess: "You Have Not Passed All Test Cases.",
+          ver: "Unauthorized User",
+          mess: "Please Login to continue Solving.",
         });
       }
     });
@@ -111,12 +117,15 @@ function CompilerArea1() {
                     Verdict
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className={classNames("text-lg", { "text-green-500": solution.ver == "Accepted", "text-red-500": solution.ver == "Failed"})}>
+                    <p
+                      className={classNames("text-lg", {
+                        "text-green-500": solution.ver == "Accepted",
+                        "text-red-500": solution.ver == "Failed",
+                      })}
+                    >
                       {solution.ver}
                     </p>
-                    <p className="text-sm text-gray-500">
-                      {solution.mess}
-                    </p>
+                    <p className="text-sm text-gray-500">{solution.mess}</p>
                   </div>
 
                   <div className="mt-4">
