@@ -23,7 +23,8 @@ function Login() {
     }
   };
   const dispatch = useDispatch();
-  function onLogin() {
+  function onLogin(e) {
+    e.preventDefault();
     console.log(userData);
     dispatch(signin(userData));
   }

@@ -1,5 +1,5 @@
 import  express  from "express";
-import { GetProblem, GetProblemList, PostProblem, DeleteProblem } from "../controllers/problemcontroller.js";
+import { GetProblem, GetProblemList, PostProblem, DeleteProblem } from "../controllers/problemController.js";
 const router = express.Router();
 
 router.get("/GetProblem/:_id", GetProblem);
