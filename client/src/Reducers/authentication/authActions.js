@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import { SIGN_IN, SIGN_OUT, SIGN_UP } from "./authTypes";
-// import { useNavigate } from "react-router-dom";
 
 export const signin = (userData) => async (dispatch) => {
   try {

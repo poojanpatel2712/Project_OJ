@@ -9,7 +9,6 @@ function Navbar() {
   }
 
   return (
-    // fixed top-0 left-0 right-0
     <div className=" bg-gray-800">
       <div className="container w-screen mx-auto px-4">
         <nav className="flex items-center justify-between h-28">
